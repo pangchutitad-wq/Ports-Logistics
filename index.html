@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nose Tea | ค้นหาว่าคุณคือชาแบบไหน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mint-bg:#eefdf7;
+    --mint-100:#d6f7e8;
+    --mint-200:#b6f0d6;
+    --mint-300:#8fe3c0;
+    --mint-400:#5fcf9f;
+    --mint-500:#3bb888;
+    --mint-dark:#1f6b52;
+    --pink:#ffc2d1;
+    --pink-dark:#ff8fab;
+    --yellow:#ffe29a;
+    --text:#2f4a42;
+    --text-soft:#5a7a70;
+    --white:#ffffff;
+    --shadow: 0 10px 30px rgba(59,184,136,0.18);
+    --shadow-sm: 0 4px 14px rgba(59,184,136,0.15);
+    --radius-lg: 28px;
+    --radius-md: 20px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  html,body{
+    background: linear-gradient(180deg,#f2fffb 0%, #e3faf1 40%, #d7f7ec 100%);
+    font-family:'Prompt', sans-serif;
+    color:var(--text);
+    min-height:100vh;
+  }
+  h1,h2,h3, .title-font{font-family:'Mali','Prompt',sans-serif;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+  .app{max-width:900px;margin:0 auto;padding:24px 18px 80px;}
+
+  /* ---------- NAV / HEADER ---------- */
+  .brandbar{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:14px 0 6px;
+  }
+  .brandbar .logo-dot{
+    width:34px;height:34px;border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fff, var(--mint-300) 55%, var(--mint-500));
+    box-shadow: var(--shadow-sm);
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+  }
+  .brandbar span{font-family:'Mali';font-weight:700;font-size:22px;color:var(--mint-dark);letter-spacing:.5px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    text-align:center;
+    background: linear-gradient(160deg, var(--mint-100), var(--mint-bg) 70%);
+    border-radius: var(--radius-lg);
+    padding: 40px 22px 34px;
+    margin: 10px 0 34px;
+    box-shadow: var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before, .hero::after{
+    content:"";position:absolute;border-radius:50%;
+    background: radial-gradient(circle, rgba(255,255,255,.9), rgba(255,255,255,0) 70%);
+  }
+  .hero::before{width:180px;height:180px;top:-60px;left:-50px;}
+  .hero::after{width:140px;height:140px;bottom:-50px;right:-40px;background: radial-gradient(circle, rgba(255,194,209,.55), rgba(255,194,209,0) 70%);}
+  .hero h1{
+    font-size:26px;line-height:1.5;color:var(--mint-dark);margin:0 0 10px;position:relative;z-index:1;
+  }
+  .hero p.sub{
+    color:var(--text-soft);font-size:14.5px;margin:0 0 22px;position:relative;z-index:1;
+  }
+  .hero-emojis{font-size:30px;margin-bottom:8px;letter-spacing:6px;}
+  .cta-btn{
+    background: linear-gradient(135deg, var(--mint-400), var(--mint-500));
+    color:#fff;font-weight:600;font-size:16px;
+    padding:16px 30px;border-radius:999px;
+    box-shadow: 0 10px 20px rgba(59,184,136,.35);
+    position:relative;z-index:1;
+    transition: transform .15s ease, box-shadow .15s ease;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .cta-btn:hover{transform:translateY(-2px) scale(1.02); box-shadow:0 14px 26px rgba(59,184,136,.45);}
+  .cta-btn:active{transform:translateY(0) scale(.98);}
+
+  .section-title{
+    text-align:center;margin: 6px 0 4px;
+    color:var(--mint-dark);font-size:21px;
+  }
+  .section-sub{
+    text-align:center;color:var(--text-soft);font-size:13.5px;margin:0 0 22px;
+  }
+
+  /* ---------- PERSONALITY CARD GRID (landing) ---------- */
+  .card-grid{
+    display:grid;grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+    gap:16px;margin-bottom:36px;
+  }
+  .p-card{
+    background:var(--white);
+    border-radius: var(--radius-md);
+    padding:18px 16px 16px;
+    box-shadow: var(--shadow-sm);
+    border:2px solid transparent;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    position:relative;
+  }
+  .p-card:hover{transform:translateY(-4px); border-color:var(--mint-300); box-shadow: var(--shadow);}
+  .p-card .emoji-badge{
+    width:52px;height:52px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:26px;
+    margin-bottom:10px;
+  }
+  .p-card h3{margin:0 0 4px;font-size:17px;color:var(--mint-dark);}
+  .p-card .th-name{font-size:12.5px;color:var(--pink-dark);font-weight:600;margin-bottom:8px;}
+  .p-card p.desc{font-size:12.5px;color:var(--text-soft);line-height:1.6;margin:0 0 10px;}
+  .p-card .tea-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--mint-100);color:var(--mint-dark);
+    font-size:11.5px;font-weight:600;
+    padding:6px 10px;border-radius:999px;
+  }
+
+  /* ---------- QUIZ ---------- */
+  .quiz-wrap{
+    background:var(--white);border-radius:var(--radius-lg);
+    padding:26px 20px;box-shadow:var(--shadow);
+    display:none;
+  }
+  .quiz-wrap.active{display:block;}
+  .progress-track{
+    height:10px;background:var(--mint-100);border-radius:999px;overflow:hidden;margin-bottom:22px;
+  }
+  .progress-fill{
+    height:100%;background:linear-gradient(90deg,var(--mint-300),var(--mint-500));
+    border-radius:999px;transition:width .3s ease;width:20%;
+  }
+  .q-step{display:none;}
+  .q-step.active{display:block;animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .q-label{font-size:11px;letter-spacing:1px;color:var(--pink-dark);font-weight:600;margin-bottom:6px;}
+  .q-title{font-size:18px;color:var(--mint-dark);margin:0 0 18px;font-family:'Mali';}
+  .opt-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--mint-bg);border-radius:14px;padding:12px 14px;margin-bottom:10px;
+  }
+  .opt-row label{font-size:14px;color:var(--text);flex:1;}
+  .opt-row select{
+    background:#fff;border:2px solid var(--mint-200);border-radius:10px;
+    padding:8px 10px;font-size:14px;color:var(--mint-dark);font-weight:600;
+    font-family:inherit;min-width:64px;
+  }
+  .quiz-nav{display:flex;justify-content:space-between;margin-top:20px;gap:10px;}
+  .btn{
+    padding:12px 22px;border-radius:999px;font-weight:600;font-size:14px;
+  }
+  .btn-primary{background:linear-gradient(135deg,var(--mint-400),var(--mint-500));color:#fff;box-shadow:var(--shadow-sm);}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-ghost{background:var(--mint-100);color:var(--mint-dark);}
+  .hint{font-size:11.5px;color:var(--text-soft);text-align:center;margin-top:14px;}
+
+  /* ---------- RESULT ---------- */
+  .result-wrap{display:none;}
+  .result-wrap.active{display:block;animation:fadein .4s ease;}
+  .result-card{
+    background: linear-gradient(160deg, #fff, var(--mint-bg));
+    border-radius: var(--radius-lg);
+    padding:32px 22px;text-align:center;box-shadow:var(--shadow);
+    position:relative;overflow:hidden;margin-bottom:24px;
+  }
+  .result-card .big-emoji{
+    width:96px;height:96px;border-radius:50%;margin:0 auto 14px;
+    display:flex;align-items:center;justify-content:center;font-size:48px;
+    box-shadow: var(--shadow-sm);
+  }
+  .result-tag{font-size:12px;letter-spacing:1.5px;color:var(--pink-dark);font-weight:700;margin-bottom:6px;}
+  .result-card h2{font-size:26px;margin:0 0 2px;color:var(--mint-dark);}
+  .result-card .th-name{font-size:14px;color:var(--text-soft);margin-bottom:14px;}
+  .result-card p.desc{font-size:14px;line-height:1.7;color:var(--text);max-width:480px;margin:0 auto 18px;}
+  .tea-reco{
+    display:inline-block;background:var(--mint-100);border-radius:18px;
+    padding:14px 18px;margin:0 auto;text-align:left;max-width:420px;
+  }
+  .tea-reco .lbl{font-size:11px;color:var(--mint-dark);font-weight:700;letter-spacing:.5px;margin-bottom:4px;}
+  .tea-reco .tea-name{font-size:16px;font-weight:700;color:var(--mint-dark);margin-bottom:4px;}
+  .tea-reco .tea-desc{font-size:12.5px;color:var(--text-soft);line-height:1.6;}
+
+  .action-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+
+  /* ---------- PHOTOBOOTH ---------- */
+  .booth{
+    background:var(--white);border-radius:var(--radius-lg);
+    padding:24px 20px;box-shadow:var(--shadow);margin-bottom:24px;
+  }
+  .booth h3{color:var(--mint-dark);text-align:center;margin:0 0 4px;}
+  .booth p.hint2{text-align:center;color:var(--text-soft);font-size:12.5px;margin:0 0 18px;}
+  .upload-zone{
+    border:2px dashed var(--mint-300);border-radius:18px;
+    padding:22px;text-align:center;background:var(--mint-bg);
+    cursor:pointer;margin-bottom:16px;
+  }
+  .upload-zone:hover{background:var(--mint-100);}
+  .upload-zone span{display:block;font-size:13px;color:var(--mint-dark);font-weight:600;}
+  .canvas-frame{
+    display:none;position:relative;max-width:340px;margin:0 auto 16px;
+    border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);
+  }
+  .canvas-frame.active{display:block;}
+  #boothCanvas{width:100%;display:block;}
+  .booth-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+
+  /* ---------- REFERRAL ---------- */
+  .referral{
+    background: linear-gradient(135deg, var(--pink), var(--yellow));
+    border-radius: var(--radius-lg);
+    padding:24px 20px;text-align:center;box-shadow:var(--shadow);
+  }
+  .referral h3{margin:0 0 6px;color:#7a4a2f;}
+  .referral p{font-size:12.5px;color:#7a4a2f;margin:0 0 16px;}
+  .code-box{
+    background:#fff;border-radius:14px;padding:14px 18px;
+    display:inline-flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);
+    margin-bottom:14px;
+  }
+  .code-box .code{font-family:'Mali';font-weight:700;font-size:20px;letter-spacing:2px;color:var(--mint-dark);}
+  .code-box button{background:var(--mint-400);color:#fff;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:600;}
+  .invite-note{font-size:11.5px;color:#7a4a2f;background:rgba(255,255,255,.55);border-radius:12px;padding:10px 14px;}
+
+  footer{text-align:center;color:var(--text-soft);font-size:11.5px;margin-top:30px;}
+
+  @media (max-width:480px){
+    .hero h1{font-size:21px;}
+    .result-card h2{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="brandbar">
+    <div class="logo-dot">🍃</div>
+    <span>Nose Tea</span>
+  </div>
+
+  <!-- ============ HOME / LANDING ============ -->
+  <div id="homeView">
+    <div class="hero">
+      <div class="hero-emojis">🍵 ☁️ 🌸</div>
+      <h1>ค้นหาว่าคุณคือ<br>ชาแบบไหนของ Nose Tea</h1>
+      <p class="sub">ตอบคำถามน่ารัก ๆ 5 ข้อ แล้วมาดูกันว่าตัวตนของคุณ<br>เข้ากับเมนูชาแก้วไหนของเรา 🤍</p>
+      <button class="cta-btn" onclick="goToQuiz()">✨ เริ่มค้นหาตัวตนของฉัน</button>
+    </div>
+
+    <h2 class="section-title">10 บุคลิกชา จาก Nose Tea 🍃</h2>
+    <p class="section-sub">แต่ละบุคลิกมีเมนูชาที่ใช่สำหรับคุณโดยเฉพาะ</p>
+    <div class="card-grid" id="personalityGrid"></div>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="quiz-wrap" id="quizView">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="questionsHolder"></div>
+    <div class="quiz-nav">
+      <button class="btn btn-ghost" id="backBtn" onclick="prevQuestion()">← ย้อนกลับ</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">ถัดไป →</button>
+    </div>
+    <p class="hint">กรุณาเลือกคะแนน 1-5 ให้ครบทุกตัวเลือกก่อนไปข้อถัดไปนะ 💚</p>
+  </div>
+
+  <!-- ============ RESULT ============ -->
+  <div class="result-wrap" id="resultView">
+    <div class="result-card">
+      <div class="big-emoji" id="resultEmoji" style="background:var(--mint-100);">☁️</div>
+      <div class="result-tag">คุณคือ...</div>
+      <h2 id="resultName">Cloud Dreamer</h2>
+      <div class="th-name" id="resultNameTh">นักฝันในก้อนเมฆ</div>
+      <p class="desc" id="resultDesc"></p>
+      <div class="tea-reco">
+        <div class="lbl">🍵 เมนูที่ใช่สำหรับคุณ</div>
+        <div class="tea-name" id="resultTeaName"></div>
+        <div class="tea-desc" id="resultTeaDesc"></div>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-primary" onclick="scrollToBooth()">📸 ถ่ายรูปคู่ผลลัพธ์</button>
+        <button class="btn btn-ghost" onclick="restartQuiz()">🔄 ทำแบบทดสอบใหม่</button>
+      </div>
+    </div>
+
+    <!-- Photobooth -->
+    <div class="booth" id="boothSection">
+      <h3>โฟโต้บูธสุดคิ้วท์ 🩷</h3>
+      <p class="hint2">อัปโหลดรูปของคุณ ใส่กรอบ Nose Tea แล้วโพสต์อวดผลลัพธ์ได้เลย</p>
+      <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+        <span>📷 แตะเพื่ออัปโหลดรูปของคุณ</span>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleUpload(event)">
+      <div class="canvas-frame" id="canvasFrame">
+        <canvas id="boothCanvas" width="640" height="800"></canvas>
+      </div>
+      <div class="booth-actions">
+        <button class="btn btn-primary" id="downloadBtn" style="display:none" onclick="downloadPhoto()">⬇️ ดาวน์โหลดรูป</button>
+        <button class="btn btn-ghost" id="captionBtn" style="display:none" onclick="copyCaption()">📝 คัดลอกแคปชั่น</button>
+      </div>
+    </div>
+
+    <!-- Referral -->
+    <div class="referral">
+      <h3>ชวนเพื่อน รับรางวัลด้วยกัน 🎁</h3>
+      <p>แชร์โค้ดนี้ให้เพื่อน แท็ก Nose Tea แล้วรับส่วนลดสุดคุ้มเมื่อเพื่อนมาลองชา!</p>
+      <div class="code-box">
+        <span class="code" id="referralCode">NOSE-XXXX</span>
+        <button onclick="copyReferral()">คัดลอก</button>
+      </div>
+      <div class="invite-note" id="inviteNote">แชร์ลิงก์นี้: <span id="referralLink"></span></div>
+    </div>
+  </div>
+
+  <footer>Made with 💚 for Nose Tea · แบบทดสอบนี้เป็นการจำลองเพื่อความสนุกเท่านั้น</footer>
+</div>
+
+<script>
+/* ============================================================
+   DATA: 10 tea personalities mapped to real Nose Tea menu items
+   ============================================================ */
+const PERSONALITIES = [
+  { id:'calm', emoji:'☁️', color:'#CFE8FF', name:'Cloud Dreamer', nameTh:'นักฝันในก้อนเมฆ',
+    desc:'อ่อนโยน ชอบความสงบ และมีจินตนาการล่องลอยเหมือนก้อนเมฆยามบ่าย คุณมักหาความสุขจากเรื่องเล็ก ๆ รอบตัว',
+    tea:'ชาไทยซิกเนเจอร์ (Thai Tea Signature)', teaDesc:'หอมกรุ่น เข้มข้น นุ่มละมุน เหมือนอ้อมกอดยามบ่ายที่แสนสบายใจ' },
+  { id:'mysterious', emoji:'🌙', color:'#DCD6F7', name:'Moonlight Wanderer', nameTh:'นักเดินทางใต้แสงจันทร์',
+    desc:'ลึกลับ ชอบคิดคนเดียว มีโลกส่วนตัวที่น่าค้นหา คุณมองเห็นความงามในความเงียบที่คนอื่นมองข้าม',
+    tea:'ชาเขียวมะลิชีส (Jasmine Green Tea with Cheese)', teaDesc:'กลิ่นมะลิบอบบางตัดกับชีสครีมนุ่ม ให้ความรู้สึกลึกซึ้งแต่ผ่อนคลาย' },
+  { id:'balanced', emoji:'🌿', color:'#D3F1DF', name:'Zen Blossom', nameTh:'ดอกไม้แห่งความสมดุล',
+    desc:'สุขุม รอบคอบ รักความสมดุลในชีวิต คุณเป็นคนที่คิดก่อนทำเสมอ และมักเป็นที่พึ่งของคนรอบข้าง',
+    tea:'ชาอู่หลงพีช (Peach Oolong Tea)', teaDesc:'อู่หลงคุณภาพดีผสานความหวานละมุนของพีช กลมกล่อม ลงตัวทุกจิบ' },
+  { id:'cheerful', emoji:'🌻', color:'#FFF3C4', name:'Sunshine Sprout', nameTh:'หน่ออ่อนแห่งแสงแดด',
+    desc:'ร่าเริง สดใส มองโลกในแง่ดีเสมอ พลังบวกของคุณทำให้คนรอบตัวยิ้มได้ทุกครั้งที่เจอกัน',
+    tea:'ชามะม่วงชีส (Mango Cheese Tea)', teaDesc:'หวานสดใสจากมะม่วงแท้ ตัดกับชีสครีมเค็มนิด ๆ อร่อยสนุกทุกแก้ว' },
+  { id:'free', emoji:'🍃', color:'#C9F2E0', name:'Wild Breeze', nameTh:'สายลมแห่งอิสระ',
+    desc:'อิสระ รักการผจญภัย ไม่ชอบอยู่ในกรอบ คุณพร้อมออกเดินทางไปในที่ที่ไม่เคยไปเสมอ',
+    tea:'ชาสับปะรดมินต์ (Pineapple Mint Tea)', teaDesc:'สดชื่นซ่านุ่ม รสเปรี้ยวหวานของสับปะรดตัดกับความเย็นของมินต์ ให้ความรู้สึกโปร่งโล่งเหมือนสายลม' },
+  { id:'romantic', emoji:'🌹', color:'#FBD6E4', name:'Velvet Romantic', nameTh:'หัวใจสีกำมะหยี่',
+    desc:'โรแมนติก ใส่ใจรายละเอียด รักสวยรักงาม คุณให้ความสำคัญกับความรู้สึกและบรรยากาศรอบตัวเสมอ',
+    tea:'ชาแอปเปิ้ลกุหลาบ (Apple Rose Tea)', teaDesc:'กลิ่นกุหลาบหอมละมุนผสานรสหวานของแอปเปิ้ล ดื่มแล้วรู้สึกเหมือนอยู่ในสวนดอกไม้' },
+  { id:'confident', emoji:'⚡', color:'#FFE2B8', name:'Citrus Spark', nameTh:'ประกายส้มพลังบวก',
+    desc:'มั่นใจ กล้าตัดสินใจ ชอบความท้าทายใหม่ ๆ คุณมักเป็นคนที่พาทีมไปข้างหน้าได้เสมอ',
+    tea:'ชาส้มชีส (Orange Cheese Tea)', teaDesc:'รสส้มสดชื่นซ่าเปรี้ยวหวาน ตัดกับชีสครีมเข้มข้น กระตุ้นพลังให้พร้อมลุยทุกวัน' },
+  { id:'sweet', emoji:'💕', color:'#FFD6E7', name:'Berry Sweetheart', nameTh:'หัวใจเบอร์รี่แสนหวาน',
+    desc:'ขี้อ้อน น่ารัก ชอบดูแลคนรอบข้าง คุณมีเสน่ห์แบบที่ทำให้ทุกคนอยากอยู่ใกล้ ๆ',
+    tea:'ชาลิ้นจี่ (Lychee Tea)', teaDesc:'หอมหวานละมุนแบบลิ้นจี่แท้ ดื่มง่าย อบอุ่นใจ เหมือนตัวตนแสนน่ารักของคุณ' },
+  { id:'passionate', emoji:'🔥', color:'#FFCFC2', name:'Tropical Firecracker', nameTh:'พลุร้อนแรงแห่งเขตร้อน',
+    desc:'ร้อนแรง มีเสน่ห์ ทุ่มเทกับทุกสิ่งที่ทำอย่างจริงจัง คุณคือคนที่ไม่ทำอะไรครึ่ง ๆ กลาง ๆ',
+    tea:'ชาเขียวพาสชั่นฟรุ้ต (Passionfruit Green Tea)', teaDesc:'รสเปรี้ยวจี๊ดจากพาสชั่นฟรุ้ตตัดกับชาเขียว สดชื่นจัดเต็ม ปลุกพลังในตัวคุณ' },
+  { id:'unique', emoji:'👑', color:'#E5D4FF', name:'Signature Soul', nameTh:'จิตวิญญาณซิกเนเจอร์',
+    desc:'เป็นตัวของตัวเอง มีเอกลักษณ์ชัดเจน ใครเจอก็จำได้ไม่ลืม คุณไม่จำเป็นต้องเหมือนใครเพื่อโดดเด่น',
+    tea:'Nose Tea Signature (ชาชีสซิกเนเจอร์)', teaDesc:'สูตรซิกเนเจอร์เฉพาะของร้าน ชีสครีมหนานุ่ม เค็มตัดหวานลงตัว เป็นแก้วที่ไม่เหมือนใคร' },
+];
+
+/* ============================================================
+   QUIZ QUESTIONS — each option maps to exactly one trait,
+   2 options per trait across the whole quiz. User rates each
+   option 1-5 via dropdown = intensity toward that trait.
+   ============================================================ */
+const QUESTIONS = [
+  { title:'วันหยุดในฝันของคุณคือแบบไหน?', label:'ข้อ 1 · วันหยุดในฝัน',
+    options:[
+      { text:'ทะเลยามเช้า เงียบสงบ ลมเย็น ๆ', trait:'calm' },
+      { text:'ภูเขาสูงกลางสายหมอก ลึกลับชวนค้นหา', trait:'mysterious' },
+      { text:'ป่าเขียวสดชื่น ธรรมชาติที่สมดุล', trait:'balanced' },
+      { text:'เมืองใหญ่แสงสีคึกคักยามค่ำคืน', trait:'cheerful' },
+    ]},
+  { title:'บรรยากาศแบบไหนที่ทำให้คุณมีความสุขที่สุด?', label:'ข้อ 2 · บรรยากาศที่ใช่',
+    options:[
+      { text:'ปาร์ตี้ริมทะเลกับเพื่อนสนิท อิสระเต็มที่', trait:'free' },
+      { text:'ดินเนอร์แคนเดิลไลท์สุดหวาน โรแมนติก', trait:'romantic' },
+      { text:'เวทีพรีเซนต์งานที่ทุกคนต้องฟังคุณ', trait:'confident' },
+      { text:'ปิกนิกกับสัตว์เลี้ยงตัวโปรด อบอุ่นใจ', trait:'sweet' },
+    ]},
+  { title:'สีแบบไหนที่รู้สึกว่า "ใช่ตัวเรา" ที่สุด?', label:'ข้อ 3 · สีที่เป็นคุณ',
+    options:[
+      { text:'สีแดงส้มร้อนแรง สดใสมีพลัง', trait:'passionate' },
+      { text:'สีทองเมทัลลิกสุดชิค โดดเด่นไม่เหมือนใคร', trait:'unique' },
+      { text:'สีฟ้าพาสเทลอ่อนหวาน สงบตา', trait:'calm' },
+      { text:'สีม่วงเข้มเข้มลึกลับ ชวนหลงใหล', trait:'mysterious' },
+    ]},
+  { title:'เวลาว่าง คุณมักจะทำอะไร?', label:'ข้อ 4 · เวลาว่างของคุณ',
+    options:[
+      { text:'จัดบ้าน รดน้ำต้นไม้ ทำให้ทุกอย่างเป็นระเบียบ', trait:'balanced' },
+      { text:'นัดเพื่อนไปกินของอร่อย ถ่ายรูปสนุก ๆ', trait:'cheerful' },
+      { text:'ขับรถออกทริปแบบไม่วางแผนล่วงหน้า', trait:'free' },
+      { text:'ดูหนังรักฟิน ๆ คนเดียวหรือกับคนพิเศษ', trait:'romantic' },
+    ]},
+  { title:'เพื่อน ๆ มักบอกว่าคุณเป็นคนแบบไหน?', label:'ข้อ 5 · ในสายตาเพื่อน',
+    options:[
+      { text:'มั่นใจ กล้าตัดสินใจ เป็นผู้นำกลุ่มเสมอ', trait:'confident' },
+      { text:'น่ารัก ขี้อ้อน ทำให้ทุกคนอมยิ้มได้', trait:'sweet' },
+      { text:'มีไฟ ทุ่มเท จริงจังกับทุกอย่างที่ทำ', trait:'passionate' },
+      { text:'แปลกแหวกแนว มีสไตล์เป็นของตัวเอง', trait:'unique' },
+    ]},
+];
+
+let currentQ = 0;
+const answers = QUESTIONS.map(q => q.options.map(() => null));
+
+/* ---------- render landing personality cards ---------- */
+function renderPersonalityGrid(){
+  const grid = document.getElementById('personalityGrid');
+  grid.innerHTML = PERSONALITIES.map(p => `
+    <div class="p-card">
+      <div class="emoji-badge" style="background:${p.color}">${p.emoji}</div>
+      <h3>${p.name}</h3>
+      <div class="th-name">${p.nameTh}</div>
+      <p class="desc">${p.desc}</p>
+      <div class="tea-chip">🍵 ${p.tea}</div>
+    </div>
+  `).join('');
+}
+
+/* ---------- render quiz questions ---------- */
+function renderQuestions(){
+  const holder = document.getElementById('questionsHolder');
+  holder.innerHTML = QUESTIONS.map((q, qi) => `
+    <div class="q-step ${qi===0?'active':''}" data-step="${qi}">
+      <div class="q-label">${q.label}</div>
+      <h3 class="q-title">${q.title}</h3>
+      ${q.options.map((opt, oi) => `
+        <div class="opt-row">
+          <label>${opt.text}</label>
+          <select data-q="${qi}" data-o="${oi}" onchange="setAnswer(${qi},${oi},this.value)">
+            <option value="">-</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+  updateNavState();
+}
+
+function setAnswer(qi, oi, val){
+  answers[qi][oi] = val === '' ? null : parseInt(val, 10);
+  updateNavState();
+}
+
+function updateNavState(){
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  backBtn.style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+  const allFilled = answers[currentQ].every(v => v !== null);
+  nextBtn.disabled = !allFilled;
+  nextBtn.textContent = currentQ === QUESTIONS.length - 1 ? 'ดูผลลัพธ์ ✨' : 'ถัดไป →';
+  document.getElementById('progressFill').style.width = `${((currentQ+1)/QUESTIONS.length)*100}%`;
+}
+
+function goToQuiz(){
+  document.getElementById('homeView').style.display = 'none';
+  document.getElementById('quizView').classList.add('active');
+  document.getElementById('resultView').classList.remove('active');
+  currentQ = 0;
+  showStep(0);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showStep(i){
+  document.querySelectorAll('.q-step').forEach(el => {
+    el.classList.toggle('active', parseInt(el.dataset.step,10) === i);
+  });
+  updateNavState();
+}
+
+function nextQuestion(){
+  if(!answers[currentQ].every(v => v !== null)) return;
+  if(currentQ < QUESTIONS.length - 1){
+    currentQ++;
+    showStep(currentQ);
+  } else {
+    computeResult();
+  }
+}
+
+function prevQuestion(){
+  if(currentQ > 0){
+    currentQ--;
+    showStep(currentQ);
+  }
+}
+
+/* ---------- scoring / matching (client-side "backend") ---------- */
+function computeResult(){
+  const traitScore = {};
+  PERSONALITIES.forEach(p => traitScore[p.id] = 0);
+  QUESTIONS.forEach((q, qi) => {
+    q.options.forEach((opt, oi) => {
+      traitScore[opt.trait] += (answers[qi][oi] || 0);
+    });
+  });
+  let best = PERSONALITIES[0], bestScore = -1;
+  PERSONALITIES.forEach(p => {
+    if(traitScore[p.id] > bestScore){
+      bestScore = traitScore[p.id];
+      best = p;
+    }
+  });
+  showResult(best);
+}
+
+function showResult(p){
+  document.getElementById('quizView').classList.remove('active');
+  document.getElementById('resultView').classList.add('active');
+  document.getElementById('resultEmoji').textContent = p.emoji;
+  document.getElementById('resultEmoji').style.background = p.color;
+  document.getElementById('resultName').textContent = p.name;
+  document.getElementById('resultNameTh').textContent = p.nameTh;
+  document.getElementById('resultDesc').textContent = p.desc;
+  document.getElementById('resultTeaName').textContent = p.tea;
+  document.getElementById('resultTeaDesc').textContent = p.teaDesc;
+  window.currentResult = p;
+  drawBoothBase();
+  setupReferral();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function restartQuiz(){
+  currentQ = 0;
+  answers.forEach(a => a.fill(null));
+  document.querySelectorAll('#questionsHolder select').forEach(s => s.value = '');
+  document.getElementById('resultView').classList.remove('active');
+  document.getElementById('homeView').style.display = 'block';
+  uploadedImg = null;
+  document.getElementById('canvasFrame').classList.remove('active');
+  document.getElementById('downloadBtn').style.display = 'none';
+  document.getElementById('captionBtn').style.display = 'none';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function scrollToBooth(){
+  document.getElementById('boothSection').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- photobooth ---------- */
+let uploadedImg = null;
+const canvas = document.getElementById('boothCanvas');
+const ctx = canvas.getContext('2d');
+
+function drawBoothBase(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const p = window.currentResult;
+  const grad = ctx.createLinearGradient(0,0,0,canvas.height);
+  grad.addColorStop(0, p ? p.color : '#c9f2e0');
+  grad.addColorStop(1, '#ffffff');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = 'rgba(255,255,255,.9)';
+  ctx.font = '600 26px Prompt, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('📷 อัปโหลดรูปของคุณ', canvas.width/2, canvas.height/2);
+  document.getElementById('canvasFrame').classList.add('active');
+}
+
+function handleUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const img = new Image();
+    img.onload = function(){
+      uploadedImg = img;
+      renderBoothPhoto();
+      document.getElementById('downloadBtn').style.display = 'inline-block';
+      document.getElementById('captionBtn').style.display = 'inline-block';
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderBoothPhoto(){
+  const p = window.currentResult;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // draw uploaded image cropped to fill top area
+  const photoH = canvas.height * 0.72;
+  const scale = Math.max(canvas.width / uploadedImg.width, photoH / uploadedImg.height);
+  const iw = uploadedImg.width * scale, ih = uploadedImg.height * scale;
+  const ix = (canvas.width - iw) / 2, iy = (photoH - ih) / 2;
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0,0,canvas.width, photoH);
+  ctx.clip();
+  ctx.drawImage(uploadedImg, ix, iy, iw, ih);
+  ctx.restore();
+
+  // mint gradient footer
+  const footerY = photoH;
+  const grad = ctx.createLinearGradient(0, footerY, 0, canvas.height);
+  grad.addColorStop(0, p.color);
+  grad.addColorStop(1, '#ffffff');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, footerY, canvas.width, canvas.height - footerY);
+
+  // rounded corner overlay border
+  ctx.strokeStyle = 'rgba(255,255,255,.9)';
+  ctx.lineWidth = 10;
+  ctx.strokeRect(5,5,canvas.width-10, canvas.height-10);
+
+  // brand tag top
+  ctx.fillStyle = 'rgba(255,255,255,.92)';
+  roundRect(ctx, 16, 16, 150, 34, 17);
+  ctx.fill();
+  ctx.fillStyle = '#1f6b52';
+  ctx.font = '700 16px Mali, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('🍃 Nose Tea', 28, 39);
+
+  // emoji + name in footer
+  ctx.textAlign = 'center';
+  ctx.font = '44px sans-serif';
+  ctx.fillText(p.emoji, canvas.width/2, footerY + 58);
+  ctx.fillStyle = '#1f6b52';
+  ctx.font = '700 24px Mali, sans-serif';
+  ctx.fillText(p.name, canvas.width/2, footerY + 92);
+  ctx.font = '400 15px Prompt, sans-serif';
+  ctx.fillStyle = '#5a7a70';
+  ctx.fillText(p.nameTh, canvas.width/2, footerY + 116);
+  ctx.font = '600 13px Prompt, sans-serif';
+  ctx.fillStyle = '#1f6b52';
+  ctx.fillText('#NoseTea  #ค้นหาว่าคุณคือชาแบบไหน', canvas.width/2, canvas.height - 16);
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+function downloadPhoto(){
+  const link = document.createElement('a');
+  link.download = 'nose-tea-personality.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function copyCaption(){
+  const p = window.currentResult;
+  const code = document.getElementById('referralCode').textContent;
+  const caption = `ฉันคือ ${p.name} (${p.nameTh}) 🍃 เมนูที่ใช่สำหรับฉันคือ ${p.tea} จาก @NoseTeaThailand ✨\nมาหาว่าคุณคือชาแบบไหนกันบ้าง! ใช้โค้ด ${code} รับส่วนลดพิเศษ 🎁\n#NoseTea #ค้นหาว่าคุณคือชาแบบไหน`;
+  navigator.clipboard.writeText(caption).then(() => {
+    alert('คัดลอกแคปชั่นแล้ว! ไปโพสต์อวดผลลัพธ์กันเลย 💚');
+  }).catch(() => {
+    prompt('คัดลอกแคปชั่นนี้ได้เลย:', caption);
+  });
+}
+
+/* ---------- referral code ---------- */
+function setupReferral(){
+  let code = localStorage.getItem('noseTeaReferralCode');
+  if(!code){
+    code = 'NOSE-' + Math.random().toString(36).substring(2,6).toUpperCase();
+    localStorage.setItem('noseTeaReferralCode', code);
+  }
+  document.getElementById('referralCode').textContent = code;
+  const link = `${location.origin}${location.pathname}?ref=${code}`;
+  document.getElementById('referralLink').textContent = link;
+
+  const params = new URLSearchParams(location.search);
+  const incomingRef = params.get('ref');
+  if(incomingRef && incomingRef !== code){
+    document.getElementById('inviteNote').innerHTML =
+      `🎉 คุณเข้ามาจากคำเชิญของเพื่อน (โค้ด ${incomingRef})! แสดงหน้าจอนี้ที่ร้านเพื่อรับส่วนลดต้อนรับ`;
+  }
+}
+
+function copyReferral(){
+  const code = document.getElementById('referralCode').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    alert('คัดลอกโค้ดแล้ว! ส่งให้เพื่อนได้เลย 🎁');
+  }).catch(() => {
+    prompt('คัดลอกโค้ดนี้ได้เลย:', code);
+  });
+}
+
+/* ---------- init ---------- */
+renderPersonalityGrid();
+renderQuestions();
+</script>
+</body>
+</html>
