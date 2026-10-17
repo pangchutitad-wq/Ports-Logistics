@@ -9,119 +9,184 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:1200px;margin:0 auto;padding:16px}
+.wrap{max-width:1250px;margin:0 auto;padding:16px}
 h1{font-size:20px;margin:0 0 2px}.sub{color:var(--mut);font-size:13px;margin-bottom:14px}
-.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-input,button{font:inherit;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--tx);padding:9px 12px}
-input[type=text]{flex:1;min-width:220px}
+.grid{display:grid;grid-template-columns:minmax(300px,390px) 1fr;grid-template-areas:"chat map" "prio res";gap:14px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr;grid-template-areas:"chat" "map" "res" "prio"}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
+.card h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center}
+input,button{font:inherit;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--tx);padding:8px 11px}
 button{cursor:pointer}button:hover{border-color:var(--acc)}
 button.go{background:var(--acc);color:#04201c;border-color:var(--acc);font-weight:600}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}.chips button{font-size:13px;padding:5px 10px;color:var(--mut)}
-.grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
-.card h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+h2 button{font-size:11px;padding:2px 8px;text-transform:none;letter-spacing:0}
+#chat{grid-area:chat}#mapc{grid-area:map}#prio{grid-area:prio}#res{grid-area:res}
+#msgs{height:250px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:8px}
+.msg{margin:6px 0;max-width:90%;padding:7px 10px;border-radius:10px;font-size:14px;width:fit-content}
+.me{margin-left:auto;background:var(--acc);color:#04201c}.bot{background:var(--line)}
+.send{display:flex;gap:6px}.send input{flex:1;min-width:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.chips button{font-size:12px;padding:4px 9px;color:var(--mut)}
+.note{font-size:12px;color:var(--mut);margin-top:8px}
 svg{width:100%;height:auto;display:block}
-.gauge-wrap{text-align:center}.gnum{font-size:44px;font-weight:700;line-height:1;margin-top:-34px}
-.band{color:var(--mut);font-size:13px}
+.ctl{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin-bottom:6px}.ctl input{flex:1;padding:0}
+#ports g{cursor:pointer}
+.top{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.gw{width:200px;text-align:center}.gnum{font-size:40px;font-weight:700;line-height:1;margin-top:-30px}
 #arc{transition:stroke-dashoffset .9s ease,stroke .9s}
-.rec{margin-top:12px;border:1px solid var(--acc);border-radius:12px;padding:12px;background:color-mix(in srgb,var(--acc) 10%,transparent)}
-.rec .t{font-size:22px;font-weight:700}.rec .s{color:var(--mut);font-size:13px;margin-top:4px}
-.save{font-size:26px;font-weight:700;color:var(--ok)}
-.row{margin:10px 0}.row .l{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px}
-.track{height:14px;background:var(--line);border-radius:7px;overflow:hidden}
-.fill{height:100%;width:0;background:var(--mut);border-radius:7px;transition:width .8s ease}
-.row.win .fill{background:var(--acc)}.row.win .l b{color:var(--acc)}
-.ctl{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin-top:12px}.ctl input{flex:1;padding:0}
-.note{font-size:12px;color:var(--mut);margin-top:10px}
-.load{display:none;color:var(--acc);font-size:13px;margin-top:8px}
+.big{font-size:32px;font-weight:700;color:var(--ok);line-height:1.1}
+.kv{font-size:13px;color:var(--mut)}.kv b{color:var(--tx)}
+.tw{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--mut);font-weight:500}.g{color:var(--ok);font-weight:600}.m{color:var(--mut)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+select{font:inherit;font-size:12px;max-width:270px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--tx);padding:3px}
+ol{list-style:none;margin:0;padding:0}
+#src,#addp{grid-column:1/-1;font-size:13px}.rk{font-size:12px;color:var(--mut);margin-top:6px;text-align:left}.rkr{display:flex;justify-content:space-between}.rkr i{font-style:normal;opacity:.7}.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:6px}.opt{border:1px solid var(--line);border-radius:10px;padding:10px;cursor:pointer}.opt.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 10%,transparent)}.opt b{display:block;font-size:13px}.opt .v{font-size:22px;font-weight:700}.opt small{color:var(--mut)}.fr{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}.fr label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:3px}#src ul{margin:6px 0 10px;padding-left:18px}#src li{display:list-item;border:0;padding:2px 0}
+li{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+li .rk{width:22px;color:var(--mut)}li .x{flex:1;min-width:0}li small{display:block;color:var(--mut)}
+li button{padding:2px 8px}
+.tag{font-size:11px;color:var(--bad);border:1px solid var(--bad);border-radius:6px;padding:0 5px;margin-left:6px}
 </style></head><body><div class="wrap">
 <h1>🚢 Port Disruption Copilot</h1>
-<div class="sub">Lane: Shenzhen → Los Angeles · Backup: Oakland · Decision: wait, reroute, or fly?</div>
-<div class="bar">
-<input type="text" id="hl" placeholder="Paste a headline, e.g. Strike at Port of Los Angeles expected to last 2 weeks">
-<button class="go" id="an">Analyze</button><button id="rs">Reset</button></div>
-<div class="chips"><span class="note" style="margin:6px 4px 0 0">Try:</span>
-<button data-h="Dockworker strike closes Port of Los Angeles for 12 days">Strike (12d)</button>
-<button data-h="Typhoon shuts Port of Los Angeles for 4 days">Typhoon (4d)</button>
-<button data-h="Severe congestion at Port of Los Angeles, 8 days of delays">Congestion (8d)</button>
-<button data-h="Fire closes Port of Los Angeles indefinitely">Indefinite closure</button></div>
-
+<div class="sub">Tell the assistant what broke, or click a port. It simulates 600 scenarios per shipment and picks the cheapest plan, in priority order.</div>
 <div class="grid">
-<div class="card"><h2>Lane map (click LA to close)</h2>
-<svg viewBox="0 0 600 300" id="map" role="img" aria-label="Shipping lane map">
-<path id="r-main" d="M70 220 Q290 270 520 190" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="6 5"/>
-<path id="r-oak" d="M70 220 Q250 110 500 110" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="6 5"/>
-<path id="r-air" d="M70 220 Q300 10 520 185" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="2 6"/>
-<g id="ship"></g>
-<g id="ports" style="cursor:pointer"></g>
-<text x="300" y="285" text-anchor="middle" fill="var(--mut)" font-size="11">Pacific Ocean (schematic, not to scale)</text>
-</svg>
-<div class="note" id="read">Everything normal. No action needed.</div></div>
 
-<div class="card gauge-wrap"><h2>Risk score</h2>
-<svg viewBox="0 0 200 110"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--line)" stroke-width="14" stroke-linecap="round"/>
-<path id="arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--ok)" stroke-width="14" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
-<div class="gnum" id="gn">0</div><div class="band" id="gb">Normal</div>
-<div class="load" id="ld">Running 1,000 simulations…</div>
-<div class="rec"><div class="t" id="rt">No action needed</div><div class="s" id="rx">Port is open. Keep shipping on the main route.</div></div>
-<div class="ctl">Cost of delay / day<input type="range" id="cpd" min="2000" max="50000" step="1000" value="15000"><b id="cv" style="color:var(--tx)">$15K</b></div>
-</div>
+<div class="card" id="chat"><h2>Assistant <button id="rs">Reset all</button></h2>
+<div id="msgs"></div>
+<div class="send"><input type="text" id="in" placeholder="e.g. Strike at Long Beach for 10 days"><button class="go" id="sd">Send</button></div>
+<div class="chips">
+<button data-q="Strike at Long Beach for 10 days">Strike at Long Beach</button>
+<button data-q="Typhoon at Shenzhen for 5 days">Typhoon at Shenzhen</button>
+<button data-q="Oakland and Seattle closed for 2 weeks">Two ports down</button>
+<button data-q="Prioritize batteries">Prioritize batteries</button></div>
+<div class="note">Rule-based demo assistant. Say “reopen Oakland”, “why”, or “reset”. A live Claude API chat would replace this layer in a full build.</div></div>
 
-<div class="card"><h2>Proof: 1,000 simulated disruptions</h2>
-<div class="save" id="sv">—</div><div class="note" style="margin-top:0" id="svs">saved vs. waiting it out</div>
-<div id="bars"></div>
-<div class="note" id="cross"></div>
-<div class="note">Costs are placeholder assumptions: Oakland reroute +$45K, air +$140K per shipment lot, reroute delay 2 to 4 days. Replace with real lane data.</div></div>
+<div class="card" id="mapc"><h2>Network map (click a port to close or reopen)</h2>
+<div class="ctl">Closure length<input type="range" id="len" min="1" max="30" value="12"><b id="lv" style="color:var(--tx)">12d</b></div>
+<svg viewBox="0 0 760 330" role="img" aria-label="Shipping network map">
+<g id="routes"></g><g id="ships"></g><g id="ports"></g></svg>
+<div class="note">Dashed red = planned route that is blocked. Solid colored line = recommended route. Dotted arc = air, long dashes = rail. Use the Action dropdown to pick any route yourself.</div></div>
+
+<div class="card" id="prio"><h2>Shipment priority</h2><ol id="pl"></ol>
+<div class="note">Higher priority picks first from limited resources: 2 air slots and 2 spare berths per alternate port.</div></div>
+
+<div class="card" id="res"><h2>Recommendation</h2>
+<div class="top">
+<div class="gw"><svg viewBox="0 0 200 110"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--line)" stroke-width="14" stroke-linecap="round"/><path id="arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--ok)" stroke-width="14" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
+<div class="gnum" id="gn">0</div><div class="kv" id="gb">Risk: Normal</div><div id="rk" class="rk"></div></div>
+<div><div class="kv">Money saved vs. waiting</div><div class="big" id="sv">$0</div>
+<div class="kv" id="cmp">All routes are clear.</div></div></div>
+<div class="kv" style="margin-top:12px">Suggested plans (tap one to use it)</div><div id="sg" class="sg"></div><div class="tw"><table><thead><tr><th>#</th><th>Shipment</th><th>Planned lane</th><th>Action</th><th>Cost</th><th>Late</th><th>Saved</th></tr></thead><tbody id="tb"></tbody></table></div>
+<div class="note">Costs shown are the extra cost caused by the disruption (late penalty plus the inland leg), not the base ocean freight. Balanced weighs cost and days late equally; Fastest minimizes days late first. See data sources below.</div></div>
+<div class="card" id="addp"><h2>Add a port that is not on the map</h2>
+<div class="fr">
+<label>Port name<input type="text" id="pn" placeholder="e.g. Tacoma" style="width:140px"></label>
+<label>Type<select id="pt"><option value="d">Destination (US/Canada)</option><option value="o">Origin (Asia)</option></select></label>
+<label>Nearest existing destination<select id="pr"></select></label>
+<label>Road miles from it<input type="number" id="pm" value="30" min="1" style="width:90px"></label>
+<label>Containers<input type="number" id="pq" value="2" min="1" style="width:80px"></label>
+<label>Late cost per day ($)<input type="number" id="pc" value="10000" min="500" step="500" style="width:110px"></label>
+<button class="go" id="pb">Add port</button></div>
+<div class="note">A destination port also gets a shipment from Shenzhen so you can disrupt it. Road miles to the other ports are estimated through the nearest port you pick. An origin port works as a backup origin.</div></div>
+<div class="card" id="src"><h2>Data sources (checked 16 Oct 2026)</h2>
+<b>Real, free public data</b><ul>
+<li>Truck cost: $2.336 per mile, the 2025 US average from ATRI&rsquo;s 2026 operational-cost report. Used for every truck reroute (road miles &times; rate &times; containers).</li>
+<li>Ocean benchmark: Drewry World Container Index, Shanghai to Los Angeles at $7,884 per 40ft container on 15 Oct 2026 (free weekly on drewry.co.uk). Context only, since base ocean freight is the same on every option.</li>
+<li>Not wired in yet: indicative sailing times from MSC&rsquo;s public transpacific schedules (about 10 to 14 days from Busan to Seattle and Long Beach).</li></ul>
+<b>Approximate (my estimates, verify before presenting)</b><ul>
+<li>Road miles between ports, truck speed of about 500 miles per day, and rail priced at 60% of truck but slower.</li></ul>
+<b>Assumed (would come from the company&rsquo;s ERP)</b><ul>
+<li>Shipments, container counts, delay cost per day, air freight premium, the $40K Busan alternate-origin cost, 2 air slots, 2 spare berths per port, and closure lengths.</li></ul></div>
 </div></div>
 <script>
 const $=id=>document.getElementById(id);
-const fmt=n=>n>=1e6?"$"+(n/1e6).toFixed(2)+"M":"$"+Math.round(n/1000)+"K";
-const PL={wait:"Wait it out",oak:"Reroute to Oakland",air:"Switch to air freight"};
-let S={closed:false,exp:12,sev:7,cpd:15000};
+const fmt=n=>(n<0?"-":"")+(Math.abs(n)>=1e6?"$"+(Math.abs(n)/1e6).toFixed(2)+"M":"$"+Math.round(Math.abs(n)/1000)+"K");
+const P={SZX:{n:"Shenzhen",x:70,y:240,o:1},PUS:{n:"Busan",x:120,y:100,o:1},VAN:{n:"Vancouver",x:560,y:15},SEA:{n:"Seattle",x:585,y:55},OAK:{n:"Oakland",x:600,y:140},LA:{n:"Los Angeles",x:585,y:205},LB:{n:"Long Beach",x:625,y:255}};
+const PA={SZX:/shenzhen|yantian/,PUS:/busan/,VAN:/vancouver/,SEA:/seattle|tacoma/,OAK:/oakland/,LA:/los angeles|\bla\b/,LB:/long beach|\blb\b/};
+let SH=[{id:0,n:"Medical devices",f:"SZX",t:"LA",q:2,cpd:30000,air:70000,c:"#35d0ba",al:/medic|device/},
+{id:1,n:"Phone components",f:"SZX",t:"LB",q:3,cpd:18000,air:60000,c:"#f5b942",al:/phone|compon|electron/},
+{id:2,n:"EV batteries",f:"PUS",t:"OAK",q:4,cpd:12000,air:90000,c:"#6ea8ff",al:/batter|\bev\b/},
+{id:3,n:"Apparel",f:"SZX",t:"SEA",q:5,cpd:4000,air:40000,c:"#c792ea",al:/apparel|cloth|fashion/}];
+let CL={},DEF=12,R=[],OV={},MODE="bal",RK=[0,0,0,0];
 function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function tri(r,a,m,b){const u=r(),c=(m-a)/(b-a);return u<c?a+Math.sqrt(u*(b-a)*(m-a)):b-Math.sqrt((1-u)*(b-a)*(b-m))}
-function sim(exp,cpd){const r=rng(42),N=1000,A={wait:[0,0],oak:[0,0],air:[0,0]};
-for(let i=0;i<N;i++){const L=tri(r,Math.max(1,exp*.4),exp,exp*1.8);
-const o=2+r()*2;A.wait[0]+=L;A.wait[1]+=L*cpd;A.oak[0]+=o;A.oak[1]+=o*cpd+45000;A.air[0]+=.5;A.air[1]+=.5*cpd+140000}
-const out={};for(const k in A)out[k]={d:A[k][0]/N,c:A[k][1]/N};return out}
-function parse(t){t=t.toLowerCase();let sev=5,dur=7;
-if(/strike/.test(t)){sev=7;dur=12}else if(/typhoon|storm|hurricane/.test(t)){sev=6;dur=4}else if(/congest|backlog/.test(t)){sev=4;dur=8}else if(/fire|closed|closure|shut/.test(t)){sev=8;dur=10}
-const m=t.match(/(\d+)\s*(day|week)/);if(m)dur=+m[1]*(m[2]=="week"?7:1);
-if(/indefinite|unknown/.test(t)){dur=25;sev=9}
-return{sev,dur:Math.min(30,Math.max(1,dur))}}
-function score(){const c=Math.min(S.cpd/50000,1)*100;return Math.round(Math.min(100,.45*S.sev*10+.35*Math.min(S.exp,30)/30*100+.2*c))}
-function ports(){const col=S.closed?"var(--bad)":"var(--ok)";
-$("ports").innerHTML=`<g><circle cx="70" cy="220" r="9" fill="var(--ok)"/><text x="70" y="244" text-anchor="middle" fill="var(--tx)" font-size="12">Shenzhen</text></g>
-<g id="la"><circle cx="520" cy="190" r="11" fill="${col}"/><text x="520" y="214" text-anchor="middle" fill="var(--tx)" font-size="12">Los Angeles${S.closed?" (CLOSED)":""}</text></g>
-<g><circle cx="500" cy="110" r="9" fill="var(--ok)"/><text x="500" y="94" text-anchor="middle" fill="var(--tx)" font-size="12">Oakland (backup)</text></g>`;
-$("la").onclick=()=>run("Port of Los Angeles closed",true)}
-function ship(path){const s=$("ship");
-if(!path){s.innerHTML=`<circle cx="470" cy="204" r="6" fill="var(--warn)"/><text x="400" y="172" fill="var(--warn)" font-size="11">ships queuing…</text>`;return}
-s.innerHTML=`<circle r="6" fill="var(--acc)"><animateMotion dur="5s" repeatCount="indefinite"><mpath href="#${path}"/></animateMotion></circle>`}
-function routes(a){["main","oak","air"].forEach(k=>{const e=$("r-"+k);const on=k==a;e.setAttribute("stroke",on?"var(--acc)":"var(--line)");e.setAttribute("stroke-width",on?4:3)})}
-function gauge(v){const a=$("arc");a.style.strokeDashoffset=100-v;a.style.stroke=v<25?"var(--ok)":v<50?"var(--warn)":"var(--bad)";
-$("gn").textContent=v;$("gb").textContent=v<25?"Normal":v<50?"Elevated":v<75?"High":"Critical"}
-function bars(R,best){const mx=Math.max(...Object.values(R).map(x=>x.c));
-$("bars").innerHTML=Object.keys(R).map(k=>`<div class="row ${k==best?"win":""}"><div class="l"><span>${k==best?"★ ":""}<b>${PL[k]}</b></span><span>${fmt(R[k].c)} · ${R[k].d.toFixed(1)}d late</span></div><div class="track"><div class="fill" data-w="${R[k].c/mx*100}"></div></div></div>`).join("");
-requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll(".fill").forEach(f=>f.style.width=f.dataset.w+"%")))}
-function show(){const R=sim(S.exp,S.cpd);let best="wait";for(const k in R)if(R[k].c<R[best].c)best=k;
-const save=R.wait.c-R[best].c;gauge(score());bars(R,best);
-$("rt").textContent=best=="wait"?"Wait it out":PL[best];
-$("rx").textContent=`Expected ~${Math.round(S.exp)}-day closure. Waiting averages ${fmt(R.wait.c)}; ${PL[best].toLowerCase()} averages ${fmt(R[best].c)}.`;
-$("sv").textContent=save>0?fmt(save):"$0";$("svs").textContent=save>0?"saved per shipment lot vs. waiting it out":"waiting is already the cheapest option";
-const be=(45000/S.cpd+3).toFixed(1);$("cross").textContent=`Break-even: waiting stops being cheapest once the closure lasts longer than ~${be} days at this delay cost.`;
-routes(best=="wait"?"main":best);ship(best=="wait"?"r-main":best=="oak"?"r-oak":"r-air")}
-function run(text,click){const p=click?{sev:S.sev||7,dur:S.exp||12}:parse(text);S.closed=true;S.sev=p.sev;S.exp=p.dur;
-$("read").textContent=`Read as: main port closed · severity ${p.sev}/10 · ~${p.dur} days (keyword-based stand-in for the LLM step).`;
-ports();ld(true);setTimeout(()=>{ld(false);show()},900)}
-function ld(on){$("ld").style.display=on?"block":"none";if(on)$("gb").textContent="Analyzing…"}
-function reset(){S={closed:false,exp:12,sev:7,cpd:+$("cpd").value};ports();gauge(0);ship("r-main");routes("main");$("bars").innerHTML="";$("sv").textContent="—";$("svs").textContent="saved vs. waiting it out";$("cross").textContent="";
-$("rt").textContent="No action needed";$("rx").textContent="Port is open. Keep shipping on the main route.";$("read").textContent="Everything normal. No action needed.";$("hl").value=""}
-$("an").onclick=()=>{const t=$("hl").value.trim();if(t)run(t)};
-$("hl").onkeydown=e=>{if(e.key=="Enter")$("an").click()};
-$("rs").onclick=reset;
-document.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>{$("hl").value=b.dataset.h;run(b.dataset.h)});
-$("cpd").oninput=e=>{S.cpd=+e.target.value;$("cv").textContent=fmt(S.cpd);if(S.closed)show()};
-reset();
+const M={"LA-LB":25,"LA-OAK":380,"LA-SEA":1135,"LA-VAN":1280,"LB-OAK":395,"LB-SEA":1150,"LB-VAN":1295,"OAK-SEA":810,"OAK-VAN":950,"SEA-VAN":145};
+const mi=(a,b)=>{if(a==b)return 0;if(P[a].ref)return P[a].rm+mi(P[a].ref,b);if(P[b].ref)return P[b].rm+mi(a,P[b].ref);return M[a+"-"+b]||M[b+"-"+a]};
+function opts(s){const o=[{k:"wait",l:"Wait it out",x:0,b:0,sp:0,w:1},{k:"air",l:"Air freight",x:s.air,b:.5,sp:0}];
+const dc=CL[s.t],oc=CL[s.f];
+if(dc&&!oc)for(const X in P)if(!P[X].o&&!CL[X]&&X!=s.t){const m=mi(s.t,X),tk=m*2.336*s.q;o.push({k:"rr",l:"Reroute to "+P[X].n+" + truck",x:tk,b:1.5+m/500,sp:1.5,to:X},{k:"rl",l:"Reroute to "+P[X].n+" + rail",x:tk*.6,b:3.5+m/400,sp:2,to:X})}
+if(oc&&!dc)for(const X in P)if(P[X].o&&!CL[X]&&X!=s.f)o.push({k:"alt",l:"Ship via "+P[X].n,x:40000,b:3,sp:2,from:X});
+return o}
+function plan(mode=MODE,fresh){const cap={air:2};for(const k in P)cap[k]=2;
+return SH.map(s=>{const days=Math.max(CL[s.t]||0,CL[s.f]||0);if(!days)return{s,days:0};
+const r=rng(42+s.id),N=600,O=opts(s);O.forEach(o=>{o.dl=0;o.id=o.k+(o.to||o.from||"")});
+for(let i=0;i<N;i++){const L=tri(r,Math.max(1,days*.4),days,days*1.8);O.forEach(o=>o.dl+=o.w?L:o.b+r()*o.sp)}
+O.forEach(o=>{o.d=o.dl/N;o.c=o.d*s.cpd+o.x});
+const wc=O[0].c,cs=O.map(o=>o.c),ds=O.map(o=>o.d),c0=Math.min(...cs),c1=Math.max(...cs),d0=Math.min(...ds),d1=Math.max(...ds);
+O.forEach(o=>o.sc=mode=="cost"?o.c:mode=="time"?o.d*1e6+o.c:(o.c-c0)/((c1-c0)||1)+(o.d-d0)/((d1-d0)||1));O.sort((a,b)=>a.sc-b.sc);
+const ov=!fresh&&OV[s.id]&&O.find(o=>o.id==OV[s.id]),pick=ov||O.find(o=>o.w||(o.k=="air"?cap.air>0:cap[o.to||o.from]>0));
+if(pick.k=="air")cap.air--;else if(!pick.w)cap[pick.to||pick.from]--;
+return{s,days,pick,wc,O,man:!!ov,save:wc-pick.c}})}
+const pth=(a,b,air)=>{const A=P[a],B=P[b];return`M${A.x} ${A.y} Q${(A.x+B.x)/2} ${(A.y+B.y)/2+(air?-90:-25)} ${B.x} ${B.y}`};
+const dot=(id,c,i)=>`<circle r="5" fill="${c}" stroke="var(--bg)" stroke-width="1.5"><animateMotion dur="7s" begin="${-i*1.7}s" repeatCount="indefinite"><mpath href="#${id}"/></animateMotion></circle>`;
+function render(){R=plan();const aff=R.filter(r=>r.days);
+$("ports").innerHTML=Object.keys(P).map(k=>{const p=P[k],left=!p.o;return`<g data-k="${k}"><circle cx="${p.x}" cy="${p.y}" r="${CL[k]?13:10}" fill="${CL[k]?"var(--bad)":"var(--ok)"}" stroke="var(--bg)" stroke-width="2"/><text x="${p.c?p.x:p.x+(left?-16:16)}" y="${p.y+(p.c?26:4)}" text-anchor="${p.c?"middle":left?"end":"start"}" fill="var(--tx)" font-size="13">${p.n}${CL[k]?" ✕ "+CL[k]+"d":""}</text></g>`}).join("");
+let h="",sh="";
+R.forEach((r,i)=>{const s=r.s,id="p"+s.id;
+if(!r.days){h+=`<path id="${id}" d="${pth(s.f,s.t)}" fill="none" stroke="${s.c}" stroke-width="2" opacity=".55"/>`;sh+=dot(id,s.c,i);return}
+h+=`<path d="${pth(s.f,s.t)}" fill="none" stroke="var(--bad)" stroke-width="2" stroke-dasharray="5 5" opacity=".8"/>`;
+const k=r.pick.k;
+if(k=="wait"){sh+=`<circle cx="${P[s.t].x-20}" cy="${P[s.t].y+10}" r="5" fill="${s.c}"/>`;return}
+const a=k=="alt"?r.pick.from:s.f,b=k=="rr"||k=="rl"?r.pick.to:s.t;
+h+=`<path id="${id}" d="${pth(a,b,k=="air")}" fill="none" stroke="${s.c}" stroke-width="3.5" ${k=="air"?'stroke-dasharray="2 6"':k=="rl"?'stroke-dasharray="12 4"':""}/>`;sh+=dot(id,s.c,i)});
+$("routes").innerHTML=h;$("ships").innerHTML=sh;
+const tot=SH.reduce((t,s)=>t+s.cpd,0),ca=aff.reduce((t,r)=>t+r.s.cpd,0);
+const cD=aff.length?Math.min(Math.max(...aff.map(r=>r.days)),30)/30*100:0,cC=ca/tot*100,cN=aff.length/SH.length*100,sc=Math.round(.5*cD+.3*cC+.2*cN);RK=[cD,cC,cN,sc];
+const a=$("arc");a.style.strokeDashoffset=100-sc;a.style.stroke=sc<25?"var(--ok)":sc<50?"var(--warn)":"var(--bad)";
+$("gn").textContent=sc;$("gb").textContent="Risk: "+(sc<25?"Normal":sc<50?"Elevated":sc<75?"High":"Critical");
+$("rk").innerHTML=[["Closure length","50%",cD],["Delay cost exposed","30%",cC],["Shipments hit","20%",cN]].map(x=>`<div class="rkr"><span>${x[0]} <i>(${x[1]})</i></span><span>${Math.round(x[2])}/100</span></div>`).join("");
+const LB={cost:"💰 Lowest cost",time:"⚡ Fastest",bal:"⚖️ Balanced"};
+$("sg").innerHTML=aff.length?["cost","time","bal"].map(m=>{const f=plan(m,1).filter(r=>r.days),c=f.reduce((t,r)=>t+r.pick.c,0),d=f.reduce((t,r)=>t+r.pick.d,0)/f.length,w=f.reduce((t,r)=>t+r.wc,0);return`<div class="opt${MODE==m?" on":""}" data-m="${m}"><b>${LB[m]}${MODE==m?" · selected":""}</b><div class="v">${fmt(c)}</div><small>avg ${d.toFixed(1)}d late · saves ${fmt(w-c)}</small></div>`}).join(""):"";
+const nw=aff.reduce((t,r)=>t+r.wc,0),np=aff.reduce((t,r)=>t+r.pick.c,0);
+$("sv").textContent=fmt(nw-np);$("cmp").innerHTML=aff.length?`Do nothing: <b>${fmt(nw)}</b> · With plan: <b>${fmt(np)}</b>`:"All routes are clear.";
+$("tb").innerHTML=R.map((r,i)=>`<tr><td>${i+1}</td><td><i class="dot" style="background:${r.s.c}"></i>${r.s.n}</td><td>${P[r.s.f].n} → ${P[r.s.t].n}</td>${r.days?`<td><select data-s="${r.s.id}"><option value="">${r.man?"↺ Back to auto":"★ "+r.pick.l+" (auto)"}</option>${r.O.map(o=>`<option value="${o.id}"${r.man&&o.id==r.pick.id?" selected":""}>${o.l} · ${fmt(o.c)} · ${o.d.toFixed(1)}d</option>`).join("")}</select></td><td>${fmt(r.pick.c)}</td><td>${r.pick.d.toFixed(1)}d</td><td class="g">${fmt(r.save)}</td>`:`<td colspan="4" class="m">On track</td>`}</tr>`).join("");
+$("pl").innerHTML=SH.map((s,i)=>`<li><span class="rk">${i+1}</span><span class="x"><i class="dot" style="background:${s.c}"></i>${s.n}${R[i].days?'<span class="tag">hit</span>':""}<small>${P[s.f].n} → ${P[s.t].n} · ${fmt(s.cpd)}/day late</small></span><button data-i="${i}" data-d="-1">▲</button><button data-i="${i}" data-d="1">▼</button></li>`).join("")}
+function summ(){const a=R.filter(r=>r.days);if(!a.length)return"No shipments use that port, so nothing needs rerouting.";
+return`${a.length} shipment${a.length>1?"s":""} affected. Plan saves ${fmt(a.reduce((t,r)=>t+r.save,0))} vs. waiting. `+a.map(r=>`${r.s.n}: ${r.pick.l.toLowerCase()}`).join("; ")+"."}
+function add(w,t){const d=document.createElement("div");d.className="msg "+w;d.textContent=t;$("msgs").appendChild(d);$("msgs").scrollTop=1e9}
+function days(l){const m=l.match(/(\d+)\s*(day|week)/);if(m)return Math.min(30,+m[1]*(m[2]=="week"?7:1));
+if(/indefinite|unknown/.test(l))return 25;if(/typhoon|storm/.test(l))return 4;if(/congest|backlog/.test(l))return 8;if(/fire/.test(l))return 10;if(/strike/.test(l))return 12;return DEF}
+function send(t){t=t.trim();if(!t)return;add("me",t);const l=t.toLowerCase(),hit=Object.keys(P).filter(k=>PA[k].test(l)),sh=SH.find(s=>s.al.test(l));let o;
+if(/reset|clear|all clear/.test(l)){CL={};OV={};render();o="All ports reopened and routes set back to auto."}
+else if(hit.length&&/\b(reopen|reopened|resume|resumed|lifted|open)\b/.test(l)){hit.forEach(k=>delete CL[k]);render();o="Reopened "+hit.map(k=>P[k].n).join(" + ")+". "+summ()}
+else if(sh&&!hit.length&&/priorit|first|top|urgent/.test(l)){SH.splice(SH.indexOf(sh),1);SH.unshift(sh);render();o=sh.n+" is now priority #1. "+summ()}
+else if(hit.length){const d=days(l);hit.forEach(k=>CL[k]=d);render();o=hit.map(k=>P[k].n).join(" + ")+" closed for ~"+d+" days. "+summ()}
+else if(/risk|score|indicator/.test(l)){o=riskTxt()}
+else if(/why|explain|how|best|suggest|recommend|plan/.test(l)){const a=R.filter(r=>r.days);o=a.length?a.map(r=>`${r.s.n}: ${r.pick.l} costs ${fmt(r.pick.c)} vs. ${fmt(r.wc)} waiting.`).join(" ")+" Higher-priority shipments choose first when air slots or berths run out.":"Nothing is disrupted yet. Try “strike at Long Beach for 10 days”."}
+else o="Tell me about a disruption, like “typhoon at Oakland for 5 days”, or say “prioritize apparel”. If your port is not on the map, add it with the form below the map.";
+setTimeout(()=>add("bot",o),400)}
+$("sd").onclick=()=>{send($("in").value);$("in").value=""};
+$("in").onkeydown=e=>{if(e.key=="Enter")$("sd").click()};
+document.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>send(b.dataset.q));
+$("rs").onclick=()=>send("reset");
+$("ports").onclick=e=>{const g=e.target.closest("g[data-k]");if(!g)return;const k=g.dataset.k;
+if(CL[k]){delete CL[k];render();add("bot",P[k].n+" reopened. "+summ())}else{CL[k]=DEF;render();add("bot",P[k].n+" closed for ~"+DEF+" days. "+summ())}};
+$("pl").onclick=e=>{const b=e.target.closest("button");if(!b)return;const i=+b.dataset.i,j=i+ +b.dataset.d;if(j<0||j>=SH.length)return;[SH[i],SH[j]]=[SH[j],SH[i]];render()};
+$("tb").onchange=e=>{const s=e.target.dataset.s;if(s==null)return;if(e.target.value)OV[s]=e.target.value;else delete OV[s];render()};
+const PAL=["#ff7aa2","#8bd450","#ffa65c","#7fd6ff","#d6a2ff"];let NP=0;
+function fillRef(){$("pr").innerHTML=Object.keys(P).filter(k=>!P[k].o).map(k=>`<option value="${k}">${P[k].n}</option>`).join("")}
+function addPort(){const n=$("pn").value.trim();if(!n)return;
+if(Object.values(P).some(p=>p.n.toLowerCase()==n.toLowerCase())){add("bot",n+" is already on the map.");return}
+const id="C"+(++NP),org=$("pt").value=="o",ref=$("pr").value,rm=Math.max(1,+$("pm").value||30),lc=n.toLowerCase();
+const k=Object.values(P).filter(p=>p.c&&(org?p.o:!p.o&&p.ref==ref)).length;
+P[id]=org?{n,x:40,y:150+28*k,o:1,c:1}:{n,x:Math.min(715,P[ref].x+50),y:Math.min(300,P[ref].y+40*k),c:1,ref,rm};
+PA[id]={test:l=>l.includes(lc)};
+if(!org){const q=Math.max(1,+$("pq").value||2);SH.push({id:SH.reduce((m,s)=>Math.max(m,s.id),0)+1,n:"Cargo to "+n,f:"SZX",t:id,q,cpd:Math.max(500,+$("pc").value||10000),air:20000+15000*q,c:PAL[NP%PAL.length],al:{test:l=>l.includes(lc)}})}
+$("pn").value="";fillRef();render();
+add("bot",n+" added"+(org?" as a backup origin port.":". A shipment to it is in the priority list, so you can close it from the map or chat."))}
+$("pb").onclick=addPort;fillRef();
+function riskTxt(){const[d,c,n,s]=RK;return`Risk score ${s}/100 = 50% closure length (${Math.round(d)}/100, capped at 30 days) + 30% share of daily delay cost exposed (${Math.round(c)}/100) + 20% share of shipments hit (${Math.round(n)}/100). Under 25 is Normal, 25 to 49 Elevated, 50 to 74 High, 75 and up Critical.`}
+$("sg").onclick=e=>{const o=e.target.closest(".opt");if(!o)return;MODE=o.dataset.m;OV={};render()};
+$("len").oninput=e=>{DEF=+e.target.value;$("lv").textContent=DEF+"d";for(const k in CL)CL[k]=DEF;render()};
+render();add("bot","Hi! Tell me about a disruption, like “strike at Long Beach for 10 days”, or click any port on the map. I will pick the cheapest plan for each shipment in priority order.");
 </script></body></html>
